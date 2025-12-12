@@ -1,7 +1,6 @@
 // app/onboarding/steps/Interests.tsx
 import React, { forwardRef, useImperativeHandle, useState } from "react";
-import { View, Text, TouchableOpacity, ScrollView } from "react-native";
-import COLORS from "@/theme/colors";
+import { ScrollView, View, Text, TouchableOpacity } from "react-native";
 
 type StepRef = { validate?: () => boolean | Promise<boolean> };
 
@@ -43,62 +42,38 @@ const Interests = forwardRef<StepRef>((_props, ref) => {
     },
   }));
 
-  const toggle = (item: string) => {
+  const toggle = (item: string) =>
     setSelected((prev) =>
-      prev.includes(item) ? prev.filter((p) => p !== item) : [...prev, item]
+      prev.includes(item) ? prev.filter((x) => x !== item) : [...prev, item]
     );
-  };
 
   return (
-    <ScrollView
-      style={{
-        flex: 1,
-        paddingHorizontal: 24,
-        paddingTop: 40,
-        backgroundColor: COLORS.bg,
-      }}
-    >
-      <Text style={{ color: COLORS.text, fontSize: 28, fontWeight: "700" }}>
-        Your interests
-      </Text>
-      <Text style={{ color: COLORS.subtext, marginTop: 8 }}>
-        Pick at least 3 — we'll show people who like similar things.
+    <ScrollView className="flex-1 px-6 pt-8">
+      <Text className="text-2xl text-text font-bold">Pick interests</Text>
+      <Text className="text-subtext mt-2">
+        Select at least 3 — we’ll suggest better matches.
       </Text>
 
-      <View
-        style={{
-          flexDirection: "row",
-          flexWrap: "wrap",
-          marginTop: 20,
-          gap: 10,
-        }}
-      >
+      <View className="flex-row flex-wrap mt-5">
         {LIST.map((it) => {
           const active = selected.includes(it);
           return (
             <TouchableOpacity
               key={it}
               onPress={() => toggle(it)}
-              style={{
-                paddingHorizontal: 14,
-                paddingVertical: 10,
-                borderRadius: 999,
-
-                marginBottom: 10,
-                backgroundColor: active ? COLORS.accent + "50" : COLORS.card,
-                borderWidth: 1,
-                borderColor: active ? COLORS.accent : "transparent",
-              }}
+              className={`px-4 py-3 rounded-pill mr-3 mb-3 ${
+                active ? "bg-accent" : "bg-card"
+              }`}
             >
-              <Text style={{ color: COLORS.text }}>{it}</Text>
+              <Text className={`${active ? "text-black" : "text-text"}`}>
+                {it}
+              </Text>
             </TouchableOpacity>
           );
         })}
       </View>
 
-      {error ? (
-        <Text style={{ color: COLORS.danger, marginTop: 12 }}>{error}</Text>
-      ) : null}
+      {error ? <Text className="text-danger mt-3">{error}</Text> : null}
     </ScrollView>
   );
 });

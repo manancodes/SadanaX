@@ -42,8 +42,7 @@ const LocationStep = forwardRef<StepRef>((_props, ref) => {
       });
       if (geos.length > 0) {
         const g = geos[0];
-        const lbl = [g.city, g.region, g.country].filter(Boolean).join(", ");
-        setLabel(lbl);
+        setLabel([g.city, g.region, g.country].filter(Boolean).join(", "));
       }
       setLoading(false);
     })();
@@ -53,7 +52,7 @@ const LocationStep = forwardRef<StepRef>((_props, ref) => {
     setLoading(true);
     const { status } = await Location.requestForegroundPermissionsAsync();
     if (status !== "granted") {
-      setError("Location permission denied.");
+      setError("Location denied.");
       setLoading(false);
       return;
     }
@@ -64,66 +63,37 @@ const LocationStep = forwardRef<StepRef>((_props, ref) => {
     });
     if (geos.length > 0) {
       const g = geos[0];
-      const lbl = [g.city, g.region, g.country].filter(Boolean).join(", ");
-      setLabel(lbl);
+      setLabel([g.city, g.region, g.country].filter(Boolean).join(", "));
     }
     setLoading(false);
   }
 
   return (
-    <View
-      style={{
-        flex: 1,
-        paddingHorizontal: 24,
-        paddingTop: 40,
-        backgroundColor: COLORS.bg,
-      }}
-    >
-      <Text style={{ color: COLORS.text, fontSize: 28, fontWeight: "700" }}>
-        Where are you?
-      </Text>
-      <Text style={{ color: COLORS.subtext, marginTop: 8 }}>
+    <View className="flex-1 bg-bg px-6 pt-8">
+      <Text className="text-2xl text-text font-bold">Where are you?</Text>
+      <Text className="text-subtext mt-2">
         Approximate location helps us show people nearby.
       </Text>
 
-      <View style={{ marginTop: 24 }}>
+      <View className="mt-6">
         {loading ? (
-          <ActivityIndicator color={COLORS.accent} />
+          <ActivityIndicator size={"large"} color={COLORS.accent} />
         ) : label ? (
-          <View
-            style={{
-              backgroundColor: COLORS.card,
-              padding: 14,
-              borderRadius: 12,
-            }}
-          >
-            <Text style={{ color: COLORS.subtext }}>Detected location</Text>
-            <Text
-              style={{ color: COLORS.text, marginTop: 6, fontWeight: "600" }}
-            >
-              {label}
-            </Text>
+          <View className="bg-card p-4 rounded-xl">
+            <Text className="text-subtext">Detected location</Text>
+            <Text className="text-text mt-2 font-semibold">{label}</Text>
           </View>
         ) : (
           <TouchableOpacity
             onPress={requestPermission}
-            style={{
-              backgroundColor: COLORS.accent,
-              padding: 12,
-              borderRadius: 10,
-              alignItems: "center",
-            }}
+            className="bg-accent px-4 py-3 rounded-xl items-center"
           >
-            <Text style={{ color: "#000", fontWeight: "700" }}>
-              Share my location
-            </Text>
+            <Text className="text-black font-semibold">Share my location</Text>
           </TouchableOpacity>
         )}
       </View>
 
-      {error ? (
-        <Text style={{ color: COLORS.danger, marginTop: 12 }}>{error}</Text>
-      ) : null}
+      {error ? <Text className="text-danger mt-3">{error}</Text> : null}
     </View>
   );
 });

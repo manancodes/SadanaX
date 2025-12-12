@@ -10,13 +10,17 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        bg: "#0B0B0D", // main dark background
-        card: "#1A1A1D",
-        primary: "#4A7DFF",
-        secondary: "#A2A2A6",
-        accent: "#6C6CFF",
-        success: "#4CE68F",
-        danger: "#FF5A7A",
+        bg: "#0A0A0B",
+        card: "#151515",
+        text: "#FFFFFF",
+        subtext: "#9A9A9A",
+        accent: "#C99383",
+        success: "#4AE37A",
+        danger: "#FF4F5A",
+        pill: "rgba(255,255,255,0.04)",
+      },
+      borderRadius: {
+        pill: "9999px",
       },
     },
   },

@@ -1,15 +1,14 @@
 // app/onboarding/steps/Photos.tsx
 import React, { forwardRef, useImperativeHandle, useState } from "react";
 import {
+  ScrollView,
   View,
   Text,
   TouchableOpacity,
   Image,
   Dimensions,
-  ScrollView,
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
-import COLORS from "@/theme/colors";
 
 type StepRef = { validate?: () => boolean | Promise<boolean> };
 const TOTAL = 6;
@@ -25,7 +24,7 @@ const Photos = forwardRef<StepRef>((_props, ref) => {
     validate: () => {
       const filled = photos.filter(Boolean).length;
       if (filled < 1) {
-        setError("Add at least one photo.");
+        setError("Add at least 1 photo.");
         return false;
       }
       setError(null);
@@ -36,6 +35,7 @@ const Photos = forwardRef<StepRef>((_props, ref) => {
   async function pick(i: number) {
     const r = await ImagePicker.launchImageLibraryAsync({
       aspect: [1, 1],
+      quality: 0.8,
     });
     if (!r.canceled) {
       const copy = [...photos];
@@ -45,59 +45,35 @@ const Photos = forwardRef<StepRef>((_props, ref) => {
   }
 
   return (
-    <ScrollView
-      style={{
-        flex: 1,
-        paddingHorizontal: 24,
-        paddingTop: 40,
-        backgroundColor: COLORS.bg,
-      }}
-    >
-      <Text style={{ color: COLORS.text, fontSize: 28, fontWeight: "700" }}>
-        Add photos
-      </Text>
-      <Text style={{ color: COLORS.subtext, marginTop: 8 }}>
+    <ScrollView className="flex-1 bg-bg px-6 pt-8">
+      <Text className="text-2xl text-text font-bold">Add photos</Text>
+      <Text className="text-subtext mt-2">
         Add multiple angles. At least 1 required.
       </Text>
 
-      <View
-        style={{
-          flexDirection: "row",
-          flexWrap: "wrap",
-          marginTop: 18,
-          justifyContent: "space-between",
-        }}
-      >
+      <View className="mt-5 flex-row flex-wrap justify-between">
         {photos.map((p, i) => (
           <TouchableOpacity
             key={i}
             onPress={() => pick(i)}
-            style={{
-              width: size,
-              height: size,
-              borderRadius: 12,
-              marginBottom: 12,
-              backgroundColor: COLORS.card,
-              alignItems: "center",
-              justifyContent: "center",
-              overflow: "hidden",
-            }}
+            className="rounded-xl mb-4"
+            style={{ width: size, height: size }}
           >
-            {p ? (
-              <Image
-                source={{ uri: p }}
-                style={{ width: size, height: size }}
-              />
-            ) : (
-              <Text style={{ color: COLORS.subtext, fontSize: 24 }}>＋</Text>
-            )}
+            <View className="bg-card w-full h-full rounded-xl items-center justify-center overflow-hidden">
+              {p ? (
+                <Image
+                  source={{ uri: p }}
+                  style={{ width: size, height: size, borderRadius: 12 }}
+                />
+              ) : (
+                <Text className="text-subtext text-3xl">＋</Text>
+              )}
+            </View>
           </TouchableOpacity>
         ))}
       </View>
 
-      {error ? (
-        <Text style={{ color: COLORS.danger, marginTop: 10 }}>{error}</Text>
-      ) : null}
+      {error ? <Text className="text-danger mt-3">{error}</Text> : null}
     </ScrollView>
   );
 });

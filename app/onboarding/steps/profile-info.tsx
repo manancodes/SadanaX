@@ -1,9 +1,14 @@
-// app/onboarding/steps/ProfileInfo.tsx
 import React, { forwardRef, useImperativeHandle, useState } from "react";
-import { View, Text, TouchableOpacity, Image, TextInput } from "react-native";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  Image,
+  TextInput,
+  ScrollView,
+} from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import DateTimePicker from "@react-native-community/datetimepicker";
-import COLORS from "@/theme/colors";
 import { calcAge } from "@/utils/calcAge";
 
 type StepRef = { validate?: () => boolean | Promise<boolean> };
@@ -11,7 +16,8 @@ type StepRef = { validate?: () => boolean | Promise<boolean> };
 const ProfileInfo = forwardRef<StepRef>((_props, ref) => {
   const [photo, setPhoto] = useState<string | null>(null);
   const [name, setName] = useState("");
-  const [dob, setDob] = useState<Date | null>(null);
+  const [bio, setBio] = useState(""); // ← bio field
+  const [dob, setDob] = useState<Date>(new Date());
   const [error, setError] = useState<string | null>(null);
 
   useImperativeHandle(ref, () => ({
@@ -21,7 +27,7 @@ const ProfileInfo = forwardRef<StepRef>((_props, ref) => {
         return false;
       }
       if (name.trim().length < 2) {
-        setError("Name must be at least 2 characters.");
+        setError("Enter a name (min 2 chars).");
         return false;
       }
       if (!dob || calcAge(dob) < 18) {
@@ -33,87 +39,74 @@ const ProfileInfo = forwardRef<StepRef>((_props, ref) => {
     },
   }));
 
-  async function pickImage() {
-    const r = await ImagePicker.launchImageLibraryAsync({
+  async function pickPhoto() {
+    const res = await ImagePicker.launchImageLibraryAsync({
       aspect: [1, 1],
       quality: 0.8,
     });
-    if (!r.canceled) setPhoto(r.assets[0].uri);
+    if (!res.canceled) setPhoto(res.assets[0].uri);
   }
 
   return (
-    <View
-      style={{
-        flex: 1,
-        paddingHorizontal: 24,
-        paddingTop: 40,
-        backgroundColor: COLORS.bg,
-      }}
-    >
-      <Text style={{ color: COLORS.text, fontSize: 28, fontWeight: "700" }}>
-        Create your profile
-      </Text>
-      <Text style={{ color: COLORS.subtext, marginTop: 8 }}>
-        Your age and location will be visible on your profile.
+    <ScrollView className="flex-1 px-6 pt-8">
+      <Text className="text-2xl text-text font-bold">Create your profile</Text>
+      <Text className="text-subtext mt-2">
+        Your age and location will be visible — bio is optional.
       </Text>
 
-      <View style={{ alignItems: "center", marginTop: 28 }}>
+      <View className="items-center mt-6">
         <TouchableOpacity
-          onPress={pickImage}
-          style={{
-            width: 130,
-            height: 130,
-            borderRadius: 130,
-            backgroundColor: COLORS.card,
-            alignItems: "center",
-            justifyContent: "center",
-          }}
+          onPress={pickPhoto}
+          className="w-32 h-32 rounded-full bg-card items-center justify-center overflow-hidden"
         >
           {photo ? (
-            <Image
-              source={{ uri: photo }}
-              style={{ width: 130, height: 130, borderRadius: 130 }}
-            />
+            <Image source={{ uri: photo }} className="w-32 h-32 rounded-full" />
           ) : (
-            <Text style={{ color: COLORS.subtext }}>Tap to add</Text>
+            <Text className="text-subtext">Tap to add</Text>
           )}
         </TouchableOpacity>
       </View>
 
-      <View style={{ marginTop: 22 }}>
-        <Text style={{ color: COLORS.subtext, marginBottom: 8 }}>
-          Full name
-        </Text>
+      <View className="mt-4">
+        <Text className="text-text font-semibold mb-2">Full name</Text>
         <TextInput
           value={name}
           onChangeText={setName}
           placeholder="How should we call you?"
-          placeholderTextColor={COLORS.subtext}
-          style={{
-            backgroundColor: COLORS.card,
-            color: COLORS.text,
-            padding: 12,
-            borderRadius: 10,
-          }}
+          placeholderTextColor="#9A9A9A"
+          className="bg-card text-text p-3 rounded-xl"
         />
       </View>
 
-      <View style={{ marginTop: 16 }}>
-        <Text style={{ color: COLORS.text, marginBottom: 8 }}>Birth date</Text>
+      <View className="mt-4">
+        <Text className="text-text font-semibold mb-2">Bio (optional)</Text>
+        <TextInput
+          value={bio}
+          onChangeText={setBio}
+          placeholder="Tell us something about you..."
+          placeholderTextColor="#9A9A9A"
+          multiline
+          numberOfLines={5}
+          textAlignVertical="top"
+          className="bg-card text-text p-3 rounded-xl h-32"
+        />
+      </View>
+
+      <View className="mt-4">
+        <Text className="text-text font-semibold mb-2">Birth date</Text>
+
         <DateTimePicker
-          value={dob || new Date(2000, 0, 1)}
-          themeVariant="dark"
+          value={dob}
           maximumDate={new Date()}
           mode="date"
           display="spinner"
-          onChange={(_, selected) => selected && setDob(selected)}
+          onChange={(e, selected) => setDob(selected || dob)}
         />
       </View>
 
-      {error ? (
-        <Text style={{ color: COLORS.danger, marginTop: 10 }}>{error}</Text>
-      ) : null}
-    </View>
+      {/* Error */}
+      {error ? <Text className="text-danger mt-3">{error}</Text> : null}
+    </ScrollView>
   );
 });
 
