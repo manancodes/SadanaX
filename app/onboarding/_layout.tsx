@@ -1,12 +1,7 @@
-import { Stack } from "expo-router";
+// app/onboarding/_layout.tsx
+import React from "react";
+import OnboardingPager from "./OnboardingPager";
 
 export default function OnboardingLayout() {
-  return (
-    <Stack
-      screenOptions={{
-        headerShown: false,
-        animation: "fade",
-      }}
-    />
-  );
+  return <OnboardingPager />;
 }

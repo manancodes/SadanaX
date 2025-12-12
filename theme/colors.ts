@@ -1,10 +1,10 @@
-const colors = {
-  primary: "#6C5CE7",
-  background: "#000000",
-  card: "#111111",
+const COLORS = {
+  bg: "#000000",
+  card: "#121212",
   text: "#FFFFFF",
-  textSecondary: "#AAAAAA",
-  accent: "#00D4A6",
+  subtext: "#8E8E93",
+  accent: "#C99383",
+  success: "#32D74B",
+  danger: "#FF453A",
 };
-
-export default colors;
+export default COLORS;
