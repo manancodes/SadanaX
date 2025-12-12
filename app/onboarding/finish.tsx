@@ -1,69 +1,67 @@
-import { View, Text, TouchableOpacity } from "react-native";
+// app/onboarding/finish.tsx
+import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
-import colors from "@/theme/colors";
+import { View, Text, TouchableOpacity } from "react-native";
+import COLORS from "@/theme/colors";
 import PaginationDots from "@/components/PaginationDots";
 import { router } from "expo-router";
-import { Ionicons } from "@expo/vector-icons";
-import { useAuthStore } from "@/utils/authStore";
 
 export default function FinishScreen() {
-  const { completeOnboarding } = useAuthStore();
+  const total = 6;
+  const current = 5;
+
+  function complete() {
+    // e.g. useAuthStore.getState().setHasCompletedOnboarding(true);
+    router.replace("/(tabs)");
+  }
 
   return (
     <SafeAreaView
       style={{
         flex: 1,
-        backgroundColor: colors.background,
+        backgroundColor: COLORS.bg,
         padding: 20,
         justifyContent: "space-between",
         alignItems: "center",
       }}
     >
-      <View style={{ marginTop: 80, alignItems: "center" }}>
-        <Ionicons name="checkmark-circle" size={140} color={colors.accent} />
-        <Text
-          style={{
-            color: colors.text,
-            fontSize: 32,
-            fontWeight: "700",
-            marginTop: 20,
-          }}
-        >
-          All Set!
+      <View style={{ marginTop: 60, alignItems: "center" }}>
+        <Text style={{ color: COLORS.text, fontSize: 32, fontWeight: "700" }}>
+          You're all set 🎉
         </Text>
         <Text
           style={{
-            color: colors.textSecondary,
-            marginTop: 8,
+            color: COLORS.subtext,
+            marginTop: 12,
             textAlign: "center",
-            width: "80%",
+            width: "85%",
           }}
         >
-          Your profile is ready. You can now start exploring.
+          Your profile is ready. You can edit anything later from settings.
         </Text>
       </View>
 
-      <PaginationDots total={6} current={5} />
+      <PaginationDots total={6} current={current} />
 
       <TouchableOpacity
-        onPress={completeOnboarding}
+        onPress={complete}
         style={{
-          backgroundColor: colors.primary,
-          paddingVertical: 18,
-          borderRadius: 14,
+          backgroundColor: COLORS.accent,
+          paddingVertical: 16,
+          borderRadius: 12,
           width: "100%",
           marginBottom: 20,
         }}
       >
         <Text
           style={{
+            color: "#000",
             textAlign: "center",
-            color: colors.text,
-            fontSize: 18,
-            fontWeight: "600",
+            fontWeight: "700",
+            fontSize: 16,
           }}
         >
-          Start Using App
+          Start Exploring
         </Text>
       </TouchableOpacity>
     </SafeAreaView>
