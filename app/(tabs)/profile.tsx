@@ -10,7 +10,6 @@ import {
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { ProfileScreen } from "@/components";
 
 export default function ProfileScreeen() {
   const [username, setUsername] = useState("@MananCodes");
@@ -84,8 +83,9 @@ export default function ProfileScreeen() {
             </View>
           ))}
         </View>
+        <View className="mb-4" />
       </ScrollView>
-      <View className="pb-28"></View>
+
       <Modal visible={isModalVisible} animationType="slide" transparent>
         <View className="flex-1 bg-black/85 justify-center px-6">
           <View className="bg-neutral-900 rounded-xl p-6">

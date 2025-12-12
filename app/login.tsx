@@ -1,15 +1,35 @@
-import { View, Text, Pressable } from "react-native";
+import { View, Text, Pressable, TextInput } from "react-native";
 import { useAuthStore } from "@/utils/authStore";
 
 export default function LoginScreen() {
   const { logIn } = useAuthStore();
   return (
-    <View className="flex-1 items-center justify-center bg-black">
-      <Text className="text-white text-3xl font-bold mb-8">Demo Login</Text>
+    <View className="flex-1 bg-neutral-950 justify-center px-8">
+      <Text className="text-4xl font-extrabold text-white mb-10">
+        Welcome Back
+      </Text>
 
-      <Pressable onPress={logIn} className="px-6 py-3 bg-white/10 rounded-xl">
-        <Text className="text-white text-lg">Enter App</Text>
+      <TextInput
+        className="p-4 rounded-2xl mb-2 bg-neutral-900 text-white"
+        placeholder="Email"
+        placeholderTextColor="#666"
+      />
+      <TextInput
+        className="p-4 rounded-2xl bg-neutral-900 text-white"
+        placeholder="Password"
+        placeholderTextColor="#666"
+        secureTextEntry
+      />
+
+      <Pressable className="mt-8 p-4 rounded-2xl bg-accent" onPress={logIn}>
+        <Text className="text-center text-white text-lg font-semibold">
+          Login
+        </Text>
       </Pressable>
+
+      <Text className="text-neutral-400 text-center mt-6">
+        Don't have an account? Sign Up
+      </Text>
     </View>
   );
 }

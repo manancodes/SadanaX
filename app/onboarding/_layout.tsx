@@ -152,7 +152,7 @@ export default function OnboardingPager() {
             <TouchableWithoutFeedback onPress={handleBack}>
               <Animated.View
                 className={`px-5 py-3 rounded-pill ${
-                  index === 0 ? "bg-pill opacity-50" : "bg-pill"
+                  index === 0 ? "bg-pill/50" : "bg-pill"
                 }`}
               >
                 <Text className="text-text text-xl">Back</Text>

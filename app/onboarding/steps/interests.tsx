@@ -51,7 +51,7 @@ const Interests = forwardRef<StepRef>((_props, ref) => {
     <ScrollView className="flex-1 px-6 pt-8">
       <Text className="text-2xl text-text font-bold">Pick interests</Text>
       <Text className="text-subtext mt-2">
-        Select at least 3 — we’ll suggest better matches.
+        Select at least 3 — we'll suggest better matches.
       </Text>
 
       <View className="flex-row flex-wrap mt-5">
@@ -61,13 +61,13 @@ const Interests = forwardRef<StepRef>((_props, ref) => {
             <TouchableOpacity
               key={it}
               onPress={() => toggle(it)}
-              className={`px-4 py-3 rounded-pill mr-3 mb-3 ${
-                active ? "bg-accent" : "bg-card"
+              className={`px-4 py-3 rounded-pill mr-3 mb-3 border-2  ${
+                active
+                  ? "bg-accent/60 border-accent"
+                  : "bg-card border-transparent"
               }`}
             >
-              <Text className={`${active ? "text-black" : "text-text"}`}>
-                {it}
-              </Text>
+              <Text className={"text-text"}>{it}</Text>
             </TouchableOpacity>
           );
         })}

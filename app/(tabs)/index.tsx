@@ -20,7 +20,10 @@ export default function TimelineScreen() {
     },
   ];
   return (
-    <SafeAreaView edges={["top"]} className="flex-1 bg-neutral-950 relative">
+    <SafeAreaView
+      edges={["top"]}
+      className="flex-1 bg-neutral-950 relative pt-6"
+    >
       <FlatList
         className="flex-1 bg-neutral-950 px-4 pb-20"
         data={timelinePosts}
@@ -52,12 +55,10 @@ export default function TimelineScreen() {
           </View>
         )}
         ListHeaderComponent={() => (
-          <View className="mt-10">
-            <SectionTitle title="Today's posts" subtitle="People around you" />
-          </View>
+          <SectionTitle title="Today's posts" subtitle="People around you" />
         )}
         ListFooterComponent={() => (
-          <View className="flex-row items-center justify-center mt-10 mb-40">
+          <View className="flex-row items-center justify-center mt-10 mb-10">
             <Text className="text-neutral-400 text-sm">
               You have seen all posts for today!
             </Text>

@@ -15,8 +15,6 @@ module.exports = {
         text: "#FFFFFF",
         subtext: "#9A9A9A",
         accent: "#C99383",
-        success: "#4AE37A",
-        danger: "#FF4F5A",
         pill: "rgba(255,255,255,0.04)",
       },
       borderRadius: {
